@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Your Question</title>
+</head>
+<body>
+
+    <h1>Edit Your Question</h1>
+
+    <form action="/questions/<%= question._id %>?_method=PATCH" method="POST">
+        <label for="question">Enter Your Question : </label>
+        <input type="text" name="questions[question]" title="question" value="<%= question.question %>"><br>
+        <label for="description">Enter Some Description : </label>
+        <input type="text" name="questions[description]" id="description" value="<%= question.description %>"><br>
+        <label for="author"> Enter Your Name :</label>
+        <input type="text" name="questions[author]" id="author" value="<%= question.author %>"><br>
+        <button>Save Changes</button>
+    </form>
+
+    <br>
+    <a href="/questions">GO back</a>
+    
+</body>
+</html>
