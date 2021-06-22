@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Question</title>
-</head>
-<body>
+<% layout("layouts/boilerplate.ejs") %>
 
-    <h1>Enter New Question</h1>
-    <form action="/questions" method="POST">
-        <label for="question">Enter Your Question : </label>
-        <input type="text" name="questions[question]" title="question"><br>
-        <label for="description">Enter Some Description : </label>
-        <input type="text" name="questions[description]" id="description"><br>
-        <label for="author"> Enter Your Name :</label>
-        <input type="text" name="questions[author]" id="author"><br>
-        <button>Create</button>
-    </form>
-    
-    <p>
-        <a href="/">Home Page</a>
-    </p>
-</body>
-</html>
+<h1>Enter New Question</h1>
+<form action="/questions" method="POST">
+    <label for="question">Enter Your Question : </label>
+    <input type="text" name="questions[question]" title="question"><br>
+    <label for="description">Enter Some Description : </label>
+    <input type="text" name="questions[description]" id="description"><br>
+    <label for="author"> Enter Your Name :</label>
+    <input type="text" name="questions[author]" id="author"><br>
+    <button>Create</button>
+</form>
+
+<p>
+    <a href="/">Home Page</a>
+</p>
