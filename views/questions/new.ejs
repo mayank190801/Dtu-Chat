@@ -1,16 +1,26 @@
 <% layout("layouts/boilerplate.ejs") %>
 
-<h1>Enter New Question</h1>
+<h1 class="text-center">Enter New Question</h1>
 <form action="/questions" method="POST">
-    <label for="question">Enter Your Question : </label>
-    <input type="text" name="questions[question]" title="question"><br>
-    <label for="description">Enter Some Description : </label>
-    <input type="text" name="questions[description]" id="description"><br>
-    <label for="author"> Enter Your Name :</label>
-    <input type="text" name="questions[author]" id="author"><br>
-    <button>Create</button>
+    <div class="form-group">
+      <label for="question">Enter Your Question</label>
+      <input type="text" class="form-control" id="question" name="questions[question]">
+    </div>
+    <div class="form-group">
+      <label for="description">Enter Some Description</label>
+      <textarea class="form-control" id="description" rows="3" name="questions[description]"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="author">Enter Your Name </label>
+        <input type="text" class="form-control" id="author" name="questions[author]"></input>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Create Question</button>
+
 </form>
 
+<br>
+
 <p>
-    <a href="/">Home Page</a>
+    <a href="/questions">All Questions</a>
 </p>

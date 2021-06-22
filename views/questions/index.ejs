@@ -1,13 +1,9 @@
 <% layout("layouts/boilerplate.ejs") %>
 
-<h1>All Questions</h1>
-<a href="/questions/new">Add New Question</a>
-
+<h1>All Questions</h1>    
 <ul>
     <% for(let question of questions){ %>
         <li><a href="/questions/<%= question._id %>" ><%= question.question %> </a> - <b><%= question.author %></b></li>
     <% } %>
 </ul>
-<p>
-    <a href="/">Home Page</a>
-</p>
+
