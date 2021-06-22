@@ -1,9 +1,17 @@
 <% layout("layouts/boilerplate.ejs") %>
 
 <h1>All Questions</h1>    
-<ul>
     <% for(let question of questions){ %>
-        <li><a href="/questions/<%= question._id %>" ><%= question.question %> </a> - <b><%= question.author %></b></li>
+        <!-- <li><a href="/questions/<%= question._id %>" ><%= question.question %> </a> - <b><%= question.author %></b></li> -->
+        <div class="card mb-4" >
+            <div class="card-body">
+              <h2 class="card-title"><%= question.question%></h2>
+              <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+              <p class="card-text mb-0"><%= question.description%></p>
+              <i class="d-block text-end me-3">-<%= question.author%></i>
+              <a href="/questions/<%=question._id%>" class="card-link">View</a>
+              <a href="/questions/<%=question._id%>/edit" class="card-link">Edit</a>
+            </div>
+          </div>
     <% } %>
-</ul>
 
