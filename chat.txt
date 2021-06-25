@@ -1,0 +1,5 @@
+Yo bro,
+isme mere vscode mein meine prettier daala tha extension, isse 
+saare ejs file thode format ho gye hai, dekh liyo ek baar
+
+isme side spacing theek ni hui hai, vo tu apni taraf se commit kr diyo

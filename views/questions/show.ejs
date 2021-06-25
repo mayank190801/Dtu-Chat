@@ -6,31 +6,39 @@
 <i><%= question.author%></i> -->
 
 <div class="card text-center mb-4">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="true" href="#">Question Details</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/questions/<%=question._id%>/edit">Edit</a>
-        </li>
-        <li class="nav-item">
-          <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Go Back</a> -->
-          <a href="/questions" class="nav-link text-muted">Go back</a>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title"><%= question.question%></h3>
-      <p class="card-text mb-0"><%= question.description %></p>
-      <b><i>- <%= question.author%></i></b>
-      <form class="d-grid gap-2 d-md-flex justify-content-md-end" action="/questions/<%= question._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-primary">DELETE</button>
-        <!-- want to add a small delete icon here insetad of plain text-->
-    </form>
-      <!-- <a class="d-block" href="#" class="btn btn-primary">Delete</a> -->
-    </div>
-  </div>
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs">
+			<li class="nav-item">
+				<a class="nav-link active" aria-current="true" href="#"
+					>Question Details</a
+				>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/questions/<%=question._id%>/edit"
+					>Edit</a
+				>
+			</li>
+			<li class="nav-item">
+				<!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Go Back</a> -->
+				<a href="/questions" class="nav-link text-muted">Go back</a>
+			</li>
+		</ul>
+	</div>
+	<div class="card-body">
+		<h3 class="card-title"><%= question.question%></h3>
+		<p class="card-text mb-0"><%= question.description %></p>
+		<b><i>- <%= question.author%></i></b>
+		<form
+			class="d-grid gap-2 d-md-flex justify-content-md-end"
+			action="/questions/<%= question._id %>?_method=DELETE"
+			method="POST"
+		>
+			<button class="btn btn-danger">DELETE</button>
+			<!-- want to add a small delete icon here insetad of plain text-->
+		</form>
+		<!-- <a class="d-block" href="#" class="btn btn-primary">Delete</a> -->
+	</div>
+</div>
 
 <!-- <br>
 <a href="/questions/<%=question._id%>/edit">Edit</a>
