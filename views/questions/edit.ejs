@@ -1,25 +1,50 @@
 <% layout("layouts/boilerplate.ejs") %>
 
-    <h1 class="text-center">Edit Your Question</h1>
-    <form action="/questions/<%= question._id %>?_method=PATCH" method="POST" novalidate class="validated-form">
-        <div class="form-group">
-          <label for="question">Enter Your Question</label>
-          <input type="text" class="form-control" id="question" name="questions[question]" value="<%= question.question %>" required>
-        </div>
-        <div class="form-group">
-          <label for="description">Enter Some Description</label>
-          <textarea class="form-control" id="description" rows="3" name="questions[description]"><%= question.description %></textarea>
-        </div>
-        <div class="form-group">
-            <label for="author">Enter Your Name </label>
-            <input type="text" class="form-control" id="author" name="questions[author]" value="<%= question.author %>" required></input>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    
-    </form>
-    
-    <br>
-    <p>
-        <a href="/questions">All Questions</a>
-    </p>
+<h1 class="text-center">Edit Your Question</h1>
+<form
+	action="/questions/<%= question._id %>?_method=PATCH"
+	method="POST"
+	novalidate
+	class="validated-form"
+>
+	<div class="form-group">
+		<label for="question">Enter Your Question</label>
+		<input
+			type="text"
+			class="form-control"
+			id="question"
+			name="questions[question]"
+			value="<%= question.question %>"
+			required
+		/>
+	</div>
+	<div class="form-group">
+		<label for="description" a>Enter Some Description</label>
+		<textarea
+			class="form-control"
+			id="description"
+			rows="3"
+			name="questions[description]"
+		>
+<%= question.description %></textarea
+		>
+	</div>
+	<div class="form-group">
+		<label for="author">Enter Your Name </label>
+		<input
+			type="text"
+			class="form-control"
+			id="author"
+			name="questions[author]"
+			value="<%= question.author %>"
+			required
+		/>
+	</div>
+	<br />
+	<button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<br />
+<p>
+	<a href="/questions">All Questions</a>
+</p>
