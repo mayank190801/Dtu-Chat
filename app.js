@@ -11,6 +11,7 @@ const questionSchema = require("./schemas");
 
 //importing model from comment!!!
 const Question = require("./models/question");
+const Answer = require("./models/answer");
 
 //--------------------------------------------------------
 
@@ -83,7 +84,9 @@ app.post(
 app.get(
 	"/questions/:id",
 	catchAsync(async (req, res) => {
-		const question = await Question.findOne({ _id: req.params.id });
+		const question = await Question.findOne({
+			_id: req.params.id,
+		}).populate("answers");
 		res.render("questions/show", { question });
 	})
 );
@@ -110,11 +113,49 @@ app.patch(
 	})
 );
 
+//Request to Delete that question!!!
 app.delete(
 	"/questions/:id",
 	catchAsync(async (req, res) => {
-		const deletedQuestion = await Question.findByIdAndRemove(req.params.id);
+		const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
 		res.redirect("/questions");
+	})
+);
+
+//REQUESTS FOR REVEIWS
+//Request to post a review!!
+app.post(
+	"/questions/:id/answer",
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
+
+		const question = await Question.findById(id);
+		const answer = await new Answer(req.body.answer);
+
+		question.answers.push(answer);
+		answer.questionAnswered = question;
+
+		await question.save();
+		await answer.save();
+
+		res.redirect(`/questions/${id}`);
+	})
+);
+
+//Request to delete a review!!!
+app.delete(
+	"/questions/:id/answer/:answerId",
+	catchAsync(async (req, res) => {
+		//now this time it will simply not show delete button like this,
+		//it will be much more advanced, no caps
+		const { id, answerId } = req.params;
+		//first of all remove from answer area
+		await Question.findByIdAndUpdate(id, {
+			$pull: { answers: answerId },
+		});
+		await Answer.findByIdAndDelete(answerId);
+
+		res.redirect(`/questions/${id}`);
 	})
 );
 
