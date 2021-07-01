@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const Joi = require("joi");
 const ExpressError = require("./utils/ExpressError");
 const catchAsync = require("./utils/catchAsync");
-const questionSchema = require("./schemas");
+const { questionSchema, answerSchema } = require("./schemas");
 
 //importing model from comment!!!
 const Question = require("./models/question");
@@ -19,6 +19,7 @@ mongoose.connect("mongodb://localhost:27017/dtu-chat", {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
+	useFindAndModify: true,
 });
 
 const db = mongoose.connection;
@@ -40,6 +41,16 @@ app.use(methodOverride("_method"));
 
 const validateQuestion = (req, res, next) => {
 	const { error } = questionSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((el) => el.message).join(",");
+		throw new ExpressError(msg, 400);
+	} else {
+		next();
+	}
+};
+
+const validatedAnswer = (req, res, next) => {
+	const { error } = answerSchema.validate(req.body);
 	if (error) {
 		const msg = error.details.map((el) => el.message).join(",");
 		throw new ExpressError(msg, 400);
@@ -126,6 +137,7 @@ app.delete(
 //Request to post a review!!
 app.post(
 	"/questions/:id/answer",
+	validatedAnswer,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
 

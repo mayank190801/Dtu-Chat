@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const questionSchema = Joi.object({
+module.exports.questionSchema = Joi.object({
 	questions: Joi.object({
 		question: Joi.string().required(),
 		description: Joi.string(),
@@ -8,4 +8,9 @@ const questionSchema = Joi.object({
 	}).required(),
 });
 
-module.exports = questionSchema;
+module.exports.answerSchema = Joi.object({
+	answer: Joi.object({
+		answer: Joi.string().required(),
+		author: Joi.string().required(),
+	}).required(),
+});
