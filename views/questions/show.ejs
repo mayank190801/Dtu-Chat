@@ -5,72 +5,103 @@
 <p><%= question.description %></p>
 <i><%= question.author%></i> -->
 
-<div class="card text-center mb-4">
-	<div class="card-header">
-		<ul class="nav nav-tabs card-header-tabs">
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="true" href="#"
-					>Question Details</a
-				>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/questions/<%=question._id%>/edit"
-					>Edit</a
-				>
-			</li>
-			<li class="nav-item">
-				<!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Go Back</a> -->
-				<a href="/questions" class="nav-link text-muted">Go back</a>
-			</li>
-		</ul>
-	</div>
-	<div class="card-body">
-		<h3 class="card-title"><%= question.question%></h3>
-		<p class="card-text mb-0"><%= question.description %></p>
-		<b><i>- <%= question.author%></i></b>
-		<form
-			class="d-grid gap-2 d-md-flex justify-content-md-end"
-			action="/questions/<%= question._id %>?_method=DELETE"
-			method="POST"
-		>
-			<button class="btn btn-danger">DELETE</button>
-			<!-- want to add a small delete icon here insetad of plain text-->
-		</form>
-		<!-- <a class="d-block" href="#" class="btn btn-primary">Delete</a> -->
-	</div>
-</div>
-
-<div>
-	<!-- Show all the answers here too!!! -->
-	<h2>Answers</h2>
-	<% for(let answer of question.answers) { %>
-		<div class="card mb-3">
+<div class="row justify-content-center">
+	<div class="col-md-8  bg-light pt-3">
+		<div class="card text-center mb-4">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="true" href="#"
+							>Question Details</a
+						>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							href="/questions/<%=question._id%>/edit"
+							>Edit</a
+						>
+					</li>
+					<li class="nav-item">
+						<!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Go Back</a> -->
+						<a href="/questions" class="nav-link text-muted"
+							>Go back</a
+						>
+					</li>
+				</ul>
+			</div>
 			<div class="card-body">
-				<h5 class="card-title"><%= answer.answer %></h5>
-				<p class="card-text">By :- <i><%= answer.author %></i></p>
-				<form action="/questions/<%= question._id%>/answer/<%= answer._id %>?_method=DELETE" method="POST">
-					<button class="btn-sm btn-danger">Delete</button>
+				<h3 class="card-title"><%= question.question%></h3>
+				<p class="card-text mb-0"><%= question.description %></p>
+				<b><i>- <%= question.author%></i></b>
+				<form
+					class="d-grid gap-2 d-md-flex justify-content-md-end"
+					action="/questions/<%= question._id %>?_method=DELETE"
+					method="POST"
+				>
+					<button class="btn btn-danger">DELETE</button>
+					<!-- want to add a small delete icon here insetad of plain text-->
+				</form>
+				<!-- <a class="d-block" href="#" class="btn btn-primary">Delete</a> -->
+			</div>
+		</div>
+
+		<div>
+			<!-- Show all the answers here too!!! -->
+			<h2>Answers</h2>
+			<% for(let answer of question.answers) { %>
+			<div class="card mb-3">
+				<div class="card-body">
+					<h5 class="card-title"><%= answer.answer %></h5>
+					<p class="card-text">By :- <i><%= answer.author %></i></p>
+					<form
+						action="/questions/<%= question._id%>/answer/<%= answer._id %>?_method=DELETE"
+						method="POST"
+					>
+						<button class="btn-sm btn-danger">Delete</button>
+					</form>
+				</div>
+			</div>
+			<% } %>
+
+			<!-- <h2>Enter Answer</h2> -->
+			<hr />
+			<h3 class="text-muted">Enter New Answer</h3>
+			<div class="mb-3">
+				<form
+					class="validated-form"
+					action="/questions/<%= question._id %>/answer"
+					method="POST"
+					novalidate
+				>
+					<div class="mb-3">
+						<label class="form-label text-muted" for="answer"
+							>Enter Answer</label
+						>
+						<textarea
+							class="form-control"
+							name="answer[answer]"
+							id="answer"
+							cols="30"
+							rows="3"
+							required
+						></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label text-muted" for="author"
+							>Enter Name</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							name="answer[author]"
+							id="author"
+							required
+						/>
+					</div>
+					<button class="btn btn-success">Submit</button>
 				</form>
 			</div>
 		</div>
-	<% } %> 
-
-	<!-- <h2>Enter Answer</h2> -->
-	<hr>
-	<h3 class="text-muted">Enter New Answer</h3>
-	<div class="mb-3">
-		<form class="validated-form" action="/questions/<%= question._id %>/answer" method="POST" novalidate>
-			<div class="mb-3">
-				<label class="form-label text-muted" for="answer">Enter Answer</label>
-				<textarea class="form-control" name="answer[answer]" id="answer" cols="30" rows="3" required></textarea>
-			</div>
-			<div class="mb-3">
-				<label class="form-label text-muted" for="author">Enter Name</label>
-				<input type="text" class="form-control" name="answer[author]" id="author" required>
-			</div>
-			<button class="btn btn-success">Submit</button>
-		</form>
 	</div>
-
 </div>
-
