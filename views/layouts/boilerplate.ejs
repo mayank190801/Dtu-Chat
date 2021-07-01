@@ -16,39 +16,14 @@
 	<body>
 		<div class="d-flex flex-column vh-100">
 			<%- include("../partials/navbar") %>
-			<!-- <div class="row">
-				<div class="col-md-8 mx-auto bg-light"> -->
-					<main class="container"><%- body %></main>
-				<!-- </div>
-			</div> -->
+				<main class="container pt-2">
+					<%- include("../partials/flash") %>
+					<%- body %>
+				</main>
 			<%- include("../partials/footer") %>
 		</div>
 
-		<script>
-			// Example starter JavaScript for disabling form submissions if there are invalid fields
-			(function () {
-				"use strict";
-
-				// Fetch all the forms we want to apply custom Bootstrap validation styles to
-				var forms = document.querySelectorAll(".validated-form");
-
-				// Loop over them and prevent submission
-				Array.from(forms).forEach(function (form) {
-					form.addEventListener(
-						"submit",
-						function (event) {
-							if (!form.checkValidity()) {
-								event.preventDefault();
-								event.stopPropagation();
-							}
-
-							form.classList.add("was-validated");
-						},
-						false
-					);
-				});
-			})();
-		</script>
+		<script src="/javascripts/validatedForm.js"></script>
 		<script
 			src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
 			integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
