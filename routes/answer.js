@@ -9,6 +9,8 @@ const { questionSchema, answerSchema } = require("../schemas");
 const Question = require("../models/question");
 const Answer = require("../models/answer");
 
+const { isLoggedIn } = require("../middleware");
+
 //----------------------------------------------
 
 const validatedAnswer = (req, res, next) => {
@@ -45,6 +47,7 @@ router.post(
 //Request to delete a review!!!
 router.delete(
 	"/:answerId",
+	isLoggedIn,
 	catchAsync(async (req, res) => {
 		//now this time it will simply not show delete button like this,
 		//it will be much more advanced, no caps

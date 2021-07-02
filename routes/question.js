@@ -9,6 +9,8 @@ const { questionSchema, answerSchema } = require("../schemas");
 const Question = require("../models/question");
 const Answer = require("../models/answer");
 
+const { isLoggedIn } = require("../middleware");
+
 //----------------------------------------------
 
 const validateQuestion = (req, res, next) => {
@@ -33,7 +35,7 @@ router.get(
 );
 
 //FORM FOR NEW QUESTION CREATION
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
 	res.render("questions/new");
 });
 
@@ -41,6 +43,7 @@ router.get("/new", (req, res) => {
 router.post(
 	"/",
 	validateQuestion,
+	isLoggedIn,
 	catchAsync(async (req, res) => {
 		const newQuestion = new Question(req.body.questions);
 		await newQuestion.save();
@@ -63,6 +66,7 @@ router.get(
 //FORM FOR EDITING THE SELECTED QUESTION
 router.get(
 	"/:id/edit",
+	isLoggedIn,
 	catchAsync(async (req, res) => {
 		const question = await Question.findOne({ _id: req.params.id });
 		res.render("questions/edit", { question });
@@ -72,6 +76,7 @@ router.get(
 //PATCH REQUEST TO UPDATE THE QUESTION
 router.patch(
 	"/:id",
+	isLoggedIn,
 	validateQuestion,
 	catchAsync(async (req, res) => {
 		const updatedQuestion = await Question.findByIdAndUpdate(
@@ -86,6 +91,7 @@ router.patch(
 //Request to Delete that question!!!
 router.delete(
 	"/:id",
+	isLoggedIn,
 	catchAsync(async (req, res) => {
 		const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
 		req.flash("success", "Question Successfully Deleted");
