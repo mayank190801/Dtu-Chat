@@ -9,8 +9,8 @@ const answerSchema = new Schema({
 	upvote: Number,
 	downvote: Number,
 	author: {
-		type: String,
-		required: true,
+		type: Schema.Types.ObjectId,
+		ref: "User",
 	},
 	questionAnswered: { type: Schema.Types.ObjectId, ref: "Question" },
 });

@@ -5,7 +5,10 @@ const Answer = require("./answer");
 const questionSchema = new Schema({
 	question: String,
 	description: String,
-	author: String,
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+	},
 	answers: [
 		{
 			type: Schema.Types.ObjectId,

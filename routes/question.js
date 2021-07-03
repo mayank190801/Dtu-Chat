@@ -1,35 +1,16 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-
 const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
-
-const { questionSchema, answerSchema } = require("../schemas");
-
 const Question = require("../models/question");
 const Answer = require("../models/answer");
-
-const { isLoggedIn } = require("../middleware");
-
-//----------------------------------------------
-
-const validateQuestion = (req, res, next) => {
-	const { error } = questionSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((el) => el.message).join(",");
-		throw new ExpressError(msg, 400);
-	} else {
-		next();
-	}
-};
-
-//----------------------------------------------
+const { isLoggedIn, validateQuestion, isAuthor } = require("../middleware");
 
 router.get(
 	"/",
 	catchAsync(async (req, res) => {
 		//show case all your questions here
-		const questions = await Question.find({});
+		const questions = await Question.find({}).populate("author");
 		res.render("questions/index", { questions });
 	})
 );
@@ -44,8 +25,10 @@ router.post(
 	"/",
 	validateQuestion,
 	isLoggedIn,
+	isAuthor,
 	catchAsync(async (req, res) => {
 		const newQuestion = new Question(req.body.questions);
+		newQuestion.author = req.user._id;
 		await newQuestion.save();
 		req.flash("success", "New Question Created");
 		res.redirect("/questions");
@@ -58,7 +41,14 @@ router.get(
 	catchAsync(async (req, res) => {
 		const question = await Question.findOne({
 			_id: req.params.id,
-		}).populate("answers");
+		})
+			.populate({
+				path: "answers",
+				populate: {
+					path: "author",
+				},
+			})
+			.populate("author");
 		res.render("questions/show", { question });
 	})
 );
@@ -67,6 +57,7 @@ router.get(
 router.get(
 	"/:id/edit",
 	isLoggedIn,
+	isAuthor,
 	catchAsync(async (req, res) => {
 		const question = await Question.findOne({ _id: req.params.id });
 		res.render("questions/edit", { question });
@@ -77,6 +68,7 @@ router.get(
 router.patch(
 	"/:id",
 	isLoggedIn,
+	isAuthor,
 	validateQuestion,
 	catchAsync(async (req, res) => {
 		const updatedQuestion = await Question.findByIdAndUpdate(
@@ -92,6 +84,7 @@ router.patch(
 router.delete(
 	"/:id",
 	isLoggedIn,
+	isAuthor,
 	catchAsync(async (req, res) => {
 		const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
 		req.flash("success", "Question Successfully Deleted");

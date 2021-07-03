@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-
 const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
-
 const User = require("../models/user");
 const passport = require("passport");
 

@@ -3,30 +3,20 @@ const router = express.Router({ mergeParams: true });
 
 const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
-
 const { questionSchema, answerSchema } = require("../schemas");
-
 const Question = require("../models/question");
 const Answer = require("../models/answer");
-
-const { isLoggedIn } = require("../middleware");
-
-//----------------------------------------------
-
-const validatedAnswer = (req, res, next) => {
-	const { error } = answerSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((el) => el.message).join(",");
-		throw new ExpressError(msg, 400);
-	} else {
-		next();
-	}
-};
+const {
+	isLoggedIn,
+	validatedAnswer,
+	isAnswerAuthor,
+} = require("../middleware");
 
 //----------------------------------------------
 
 router.post(
 	"/",
+	isLoggedIn,
 	validatedAnswer,
 	catchAsync(async (req, res) => {
 		const { id } = req.params;
@@ -36,6 +26,7 @@ router.post(
 
 		question.answers.push(answer);
 		answer.questionAnswered = question;
+		answer.author = req.user._id;
 
 		await question.save();
 		await answer.save();
@@ -48,6 +39,7 @@ router.post(
 router.delete(
 	"/:answerId",
 	isLoggedIn,
+	isAnswerAuthor,
 	catchAsync(async (req, res) => {
 		//now this time it will simply not show delete button like this,
 		//it will be much more advanced, no caps
