@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV != "production") {
+	require("dotenv").config();
+}
+
+// console.log(process.env.SECRET);
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -15,9 +21,17 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const userRouter = require("./routes/user");
 
-//--------------------------------------------------------
+const MongoStore = require("connect-mongo");
 
-mongoose.connect("mongodb://localhost:27017/dtu-chat", {
+// import MongoStore from "connect-mongo";
+
+// const dbUrl = "mongodb://localhost:27017/dtu-chat";
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/dtu-chat";
+// console.log(dbUrl);
+
+//--------------------------------------------------------
+// mongodb://localhost:27017/dtu-chat
+mongoose.connect(dbUrl, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -40,8 +54,20 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+const secret = process.env.SECRET || "thisisastupidsecretforyourinfo";
+
+const store = new MongoStore({
+	mongoUrl: dbUrl,
+	secret,
+	touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", function (e) {
+	console.log("SESSION STORE ERROR", e);
+});
+
 const sessionConfig = {
-	secret: "thisisastupidsecretforyourinfo",
+	secret,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
@@ -49,6 +75,7 @@ const sessionConfig = {
 		expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
 		maxAge: 1000 * 60 * 60 * 24 * 7,
 	},
+	store,
 };
 
 app.use(session(sessionConfig));

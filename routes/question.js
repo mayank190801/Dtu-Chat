@@ -25,7 +25,6 @@ router.post(
 	"/",
 	validateQuestion,
 	isLoggedIn,
-	isAuthor,
 	catchAsync(async (req, res) => {
 		const newQuestion = new Question(req.body.questions);
 		newQuestion.author = req.user._id;
